@@ -1,0 +1,26 @@
+[
+  {
+    "name": "MacBook Air",
+    "brand": "Apple",
+    "price": 1500,
+    "specifications": {
+      "CPU": "M1",
+      "RAM": "8GB",
+      "Storage": "256GB SSD"
+    },
+    "category": "Ultrabook",
+    "in_stock": true
+  },
+  {
+    "name": "HP Pavilion",
+    "brand": "HP",
+    "price": 800,
+    "specifications": {
+      "CPU": "Intel i5",
+      "RAM": "8GB",
+      "Storage": "512GB SSD"
+    },
+    "category": "Budget",
+    "in_stock": false
+  }
+]
