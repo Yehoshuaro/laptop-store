@@ -12,6 +12,91 @@
     "in_stock": true
   },
   {
+    "name": "Dell XPS 13",
+    "brand": "Dell",
+    "price": 1400,
+    "specifications": {
+      "CPU": "Intel Core i7",
+      "RAM": "16GB",
+      "Storage": "512GB SSD"
+    },
+    "category": "Premium",
+    "in_stock": true
+  },
+  {
+    "name": "HP Spectre x360",
+    "brand": "HP",
+    "price": 1300,
+    "specifications": {
+      "CPU": "Intel Core i5",
+      "RAM": "8GB",
+      "Storage": "512GB SSD"
+    },
+    "category": "Convertible",
+    "in_stock": false
+  },
+  {
+    "name": "Asus ROG Zephyrus",
+    "brand": "Asus",
+    "price": 2000,
+    "specifications": {
+      "CPU": "AMD Ryzen 9",
+      "RAM": "16GB",
+      "Storage": "1TB SSD"
+    },
+    "category": "Gaming",
+    "in_stock": true
+  },
+  {
+    "name": "Lenovo ThinkPad X1 Carbon",
+    "brand": "Lenovo",
+    "price": 1800,
+    "specifications": {
+      "CPU": "Intel Core i7",
+      "RAM": "16GB",
+      "Storage": "512GB SSD"
+    },
+    "category": "Business",
+    "in_stock": true
+  },
+  {
+    "name": "Acer Aspire 5",
+    "brand": "Acer",
+    "price": 700,
+    "specifications": {
+      "CPU": "Intel Core i3",
+      "RAM": "8GB",
+      "Storage": "256GB SSD"
+    },
+    "category": "Budget",
+    "in_stock": true
+  },
+  {
+    "name": "Razer Blade 15",
+    "brand": "Razer",
+    "price": 2500,
+    "specifications": {
+      "CPU": "Intel Core i7",
+      "RAM": "16GB",
+      "Storage": "1TB SSD",
+      "GPU": "NVIDIA RTX 3070"
+    },
+    "category": "Gaming",
+    "in_stock": false
+  },
+  {
+    "name": "Microsoft Surface Laptop 4",
+    "brand": "Microsoft",
+    "price": 1200,
+    "specifications": {
+      "CPU": "AMD Ryzen 5",
+      "RAM": "8GB",
+      "Storage": "512GB SSD"
+    },
+    "category": "Ultrabook",
+    "in_stock": true
+  },
+  {
     "name": "HP Pavilion",
     "brand": "HP",
     "price": 800,

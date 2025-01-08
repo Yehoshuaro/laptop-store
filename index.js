@@ -7,7 +7,10 @@ const PORT = 3000;
 
 app.use(bodyParser.json());
 
-const url = "mongodb://localhost:27017";
+// const url = "mongodb://localhost:27017"; it's for Liana's
+//const url = "mongodb://127.0.0.1:27017"; it's for Yerkhan's
+
+const url = "mongodb://127.0.0.1:27017";
 const dbName = "laptopStore";
 
 let db;
