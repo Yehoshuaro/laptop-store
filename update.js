@@ -1,12 +1,12 @@
 const axios = require("axios");
 
-const idToUpdate = "677d3e5a440cecf6ae1328a1";
+const idToUpdate = "677d3e80440cecf6ae1328a2";
 const updatedData = {
     price: 1400,
     in_stock: false,
     specifications: {
-        CPU: "Updated CPU",
-        RAM: "16GB",
+        CPU: "CPU",
+        RAM: "8GB",
         Storage: "512GB SSD"
     }
 };
