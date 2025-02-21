@@ -2,12 +2,14 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
 }
-form {
-    margin-bottom: 20px;
+.form-container {
+    margin: 20px auto;
+    width: 300px;
 }
 input, button {
     display: block;
-    margin: 10px auto;
+    width: 100%;
+    margin: 10px 0;
     padding: 10px;
 }
 #laptopList {
