@@ -1,48 +1,38 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const usersList = document.getElementById("users-list");
-    const logoutButton = document.getElementById("logout");
+document.getElementById("registerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-    async function fetchUsers() {
-        try {
-            const response = await fetch("/api/users");
-            const users = await response.json();
-            renderUsers(users);
-        } catch (error) {
-            console.error("Error fetching users:", error);
-        }
-    }
-
-    function renderUsers(users) {
-        usersList.innerHTML = "";
-        users.forEach(user => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.email}</td>
-                <td>${user.role}</td>
-                <td>
-                    <button onclick="deleteUser(${user.id})">Delete</button>
-                </td>
-            `;
-            usersList.appendChild(row);
-        });
-    }
-
-    async function deleteUser(id) {
-        if (!confirm("Are you sure you want to delete this user?")) return;
-        try {
-            await fetch(`/api/users/${id}`, { method: "DELETE" });
-            fetchUsers();
-        } catch (error) {
-            console.error("Error deleting user:", error);
-        }
-    }
-
-    logoutButton.addEventListener("click", () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        window.location.href = "/login.html";
+    const response = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
     });
 
-    fetchUsers();
+    const result = await response.json();
+    alert(result.message);
 });
+
+// Загрузка ноутбуков
+async function loadLaptops() {
+    const response = await fetch("/laptops");
+    const laptops = await response.json();
+
+    const laptopList = document.getElementById("laptopList");
+    laptopList.innerHTML = "";
+    laptops.forEach(laptop => {
+        const div = document.createElement("div");
+        div.className = "laptop";
+        div.innerHTML = `
+            <h3>${laptop.name}</h3>
+            <p>Бренд: ${laptop.brand}</p>
+            <p>Цена: ${laptop.price}₽</p>
+            <p>Категория: ${laptop.category}</p>
+            <p>${laptop.in_stock ? "В наличии" : "Нет в наличии"}</p>
+        `;
+        laptopList.appendChild(div);
+    });
+}
+
+loadLaptops();

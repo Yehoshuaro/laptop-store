@@ -1,18 +1,21 @@
 const express = require('express');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
-const adminMiddleware = require('../middleware/adminMiddleware');
-
 const router = express.Router();
 
-// Get all users (just for admins)
-router.get('/', authMiddleware, adminMiddleware, async (req, res) => {
-    try {
-        const users = await User.find().select('-password');
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error });
-    }
+router.get('/', authMiddleware(['admin']), async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+
+router.patch('/make-seller/:id', authMiddleware(['admin']), async (req, res) => {
+    await User.findByIdAndUpdate(req.params.id, { role: 'seller' });
+    res.json({ message: "User is now a seller" });
+});
+
+router.delete('/:id', authMiddleware(['admin']), async (req, res) => {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: "User deleted" });
 });
 
 module.exports = router;

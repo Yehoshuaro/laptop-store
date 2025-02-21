@@ -14,3 +14,4 @@ const laptopSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Laptop', laptopSchema);
+

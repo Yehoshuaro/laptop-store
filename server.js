@@ -1,31 +1,57 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const cookieParser = require('cookie-parser');
-const connectDB = require('./config/db');
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const path = require("path");
 
-dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5001;
-
 app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "frontend"))); // Раздаём статические файлы (HTML, CSS, JS)
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+// Подключение к MongoDB
+mongoose.connect("mongodb://127.0.0.1:27017/laptopStore")
+    .then(() => console.log("MongoDB подключена"))
+    .catch(err => console.log(err));
 
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/laptops', require('./routes/laptopRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
+// Модель пользователя
+const User = mongoose.model("User", new mongoose.Schema({
+    name: String,
+    email: { type: String, unique: true },
+    password: String
+}));
 
-app.get('/', (req, res) => {
-    res.send('API is running...');
+// Модель ноутбуков
+const Laptop = mongoose.model("Laptop", new mongoose.Schema({
+    name: String,
+    brand: String,
+    price: Number,
+    category: String,
+    in_stock: Boolean
+}));
+
+// **Маршруты**
+// Регистрация пользователя
+app.post("/register", async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        const user = new User({ name, email, password });
+        await user.save();
+        res.json({ success: true, message: "Пользователь зарегистрирован" });
+    } catch (error) {
+        res.status(400).json({ success: false, message: "Ошибка регистрации" });
+    }
 });
 
+// Получение списка ноутбуков
+app.get("/laptops", async (req, res) => {
+    try {
+        const laptops = await Laptop.find();
+        res.json(laptops);
+    } catch (error) {
+        res.status(500).json({ message: "Ошибка загрузки ноутбуков" });
+    }
+});
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Запуск сервера
+app.listen(3000, () => console.log("Сервер запущен на http://localhost:3000"));

@@ -1,36 +1,22 @@
 const express = require('express');
 const Laptop = require('../models/Laptop');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Получить все ноутбуки
 router.get('/', async (req, res) => {
-    try {
-        const laptops = await Laptop.find();
-        res.json(laptops);
-    } catch (error) {
-        res.status(500).json({ error: 'Ошибка сервера' });
-    }
+    const laptops = await Laptop.find();
+    res.json(laptops);
 });
 
-// Добавить ноутбук (только salesman)
-router.post('/', async (req, res) => {
-    try {
-        const newLaptop = new Laptop(req.body);
-        await newLaptop.save();
-        res.status(201).json(newLaptop);
-    } catch (error) {
-        res.status(500).json({ error: 'Ошибка сервера' });
-    }
+router.post('/', authMiddleware(['seller']), async (req, res) => {
+    const { name, brand, price, stock } = req.body;
+    const laptop = await Laptop.create({ name, brand, price, stock });
+    res.json(laptop);
 });
 
-// Удалить ноутбук (только salesman)
-router.delete('/:id', async (req, res) => {
-    try {
-        await Laptop.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Ноутбук удален' });
-    } catch (error) {
-        res.status(500).json({ error: 'Ошибка сервера' });
-    }
+router.delete('/:id', authMiddleware(['seller']), async (req, res) => {
+    await Laptop.findByIdAndDelete(req.params.id);
+    res.json({ message: "Laptop deleted" });
 });
 
 module.exports = router;
