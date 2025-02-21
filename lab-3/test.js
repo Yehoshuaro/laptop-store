@@ -2,7 +2,7 @@ const axios = require("axios");
 
 async function testPost() {
     const laptop = {
-        name: "Lenovo ThinkPad",
+        name: "Lenovo ThiPad",
         brand: "Lenovo",
         price: 1200,
         specifications: {
