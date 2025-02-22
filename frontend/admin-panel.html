@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; background-color: #f0f2f5;
+    }
+    .admin-container {
+      padding: 40px; max-width: 90%; margin: auto; background: #fff;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); border-radius: 10px;
+    }
+    h1 {
+      text-align: center; color: #d32f2f;
+    }
+    #searchInput {
+      width: 100%; padding: 10px; margin: 15px 0; border-radius: 5px; border: 1px solid #ddd;
+    }
+    table {
+      width: 100%; border-collapse: collapse; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      padding: 15px; border: 1px solid #ddd; text-align: left;
+    }
+    th {
+      background-color: #d32f2f; color: white; cursor: pointer;
+    }
+    .edit-btn, .delete-btn {
+      padding: 8px 12px; border: none; border-radius: 5px; color: white; cursor: pointer; transition: background 0.3s ease;
+    }
+    .edit-btn { background-color: #1976d2; }
+    .delete-btn { background-color: #d32f2f; }
+    .message {
+      padding: 10px; margin-top: 20px; border-radius: 5px;
+    }
+    .message.success { background-color: #4CAF50; color: white; }
+    .message.error { background-color: #f44336; color: white; }
+  </style>
+</head>
+<body>
+<div class="admin-container">
+  <h1>Admin Panel</h1>
+  <input type="text" id="searchInput" placeholder="Search users...">
+  <div id="message" class="message" style="display: none;"></div>
+  <table>
+    <thead>
+    <tr>
+      <th onclick="sortTable(0)">Username</th>
+      <th onclick="sortTable(1)">Email</th>
+      <th onclick="sortTable(2)">Password</th>
+      <th onclick="sortTable(3)">Role</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="userTableBody"></tbody>
+  </table>
+</div>
+<script src="admin-panel.js"></script>
+</body>
+</html>
