@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Panel</title>
+
+
   <style>
     body, html {
       margin: 0; padding: 0; height: 100%; font-family: Arial, sans-serif; background-color: #f0f2f5;
@@ -38,12 +40,13 @@
     .message.success { background-color: #4CAF50; color: white; }
     .message.error { background-color: #f44336; color: white; }
   </style>
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 <div class="admin-container">
   <h2>Admin Panel</h2>
 
-  <!-- ✅ Form for Adding New Users -->
+
   <form id="addUserForm">
     <input type="text" id="newUserName" placeholder="Name" required>
     <input type="email" id="newUserEmail" placeholder="Email" required>
@@ -58,6 +61,8 @@
   </form>
 
   <div id="userList"></div>
+
+  <a href="catalog.html" class="btn btn-secondary">Catalog of the Laptops</a>
 
   <script src="admin-panel.js"></script>
 

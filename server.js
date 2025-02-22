@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "frontend"))); // Раздаём HTML, CSS, JS
+app.use(express.static(path.join(__dirname, "frontend")));
 
 mongoose.connect("mongodb://localhost:27017/laptopStore")
     .then(() => console.log("MongoDB Connected"))
