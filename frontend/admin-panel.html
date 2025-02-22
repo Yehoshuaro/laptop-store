@@ -41,22 +41,25 @@
 </head>
 <body>
 <div class="admin-container">
-  <h1>Admin Panel</h1>
-  <input type="text" id="searchInput" placeholder="Search users...">
-  <div id="message" class="message" style="display: none;"></div>
-  <table>
-    <thead>
-    <tr>
-      <th onclick="sortTable(0)">Username</th>
-      <th onclick="sortTable(1)">Email</th>
-      <th onclick="sortTable(2)">Password</th>
-      <th onclick="sortTable(3)">Role</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody id="userTableBody"></tbody>
-  </table>
+  <h2>Admin Panel</h2>
+
+  <!-- ✅ Form for Adding New Users -->
+  <form id="addUserForm">
+    <input type="text" id="newUserName" placeholder="Name" required>
+    <input type="email" id="newUserEmail" placeholder="Email" required>
+    <input type="password" id="newUserPassword" placeholder="Password" required>
+    <select id="newUserRole">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button type="submit">Add User</button>
+  </form>
+
+  <!-- ✅ User List -->
+  <div id="userList"></div>
+
+  <script src="admin-panel.js"></script>
+
 </div>
-<script src="admin-panel.js"></script>
 </body>
 </html>

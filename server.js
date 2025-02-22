@@ -158,28 +158,57 @@ app.post("/register", async (req, res) => {
     }
 });
 
+//working
+// app.post("/login", async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         const user = await User.findOne({ email });
+//
+//         if (!user) {
+//             return res.status(401).json({ success: false, message: "Invalid email or password" });
+//         }
+//
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) {
+//             return res.status(401).json({ success: false, message: "Invalid email or password" });
+//         }
+//
+//         res.status(200).json({ success: true, message: "Login successful" });
+//     } catch (error) {
+//         console.error("Login error:", error);
+//         res.status(500).json({ success: false, message: "Internal server error" });
+//     }
+// });
 
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        console.log("Login attempt:", email, password); // Debugging
 
+        const user = await User.findOne({ email });
         if (!user) {
+            console.log("User not found");
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            console.log("Password mismatch");
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
-        res.status(200).json({ success: true, message: "Login successful" });
+        console.log(`Login successful for ${user.role}`);
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            role: user.role
+        });
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("🔥 Login error:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 });
-
 
 app.get("/laptops", async (req, res) => {
     try {
@@ -189,5 +218,40 @@ app.get("/laptops", async (req, res) => {
         res.status(500).json({ message: "Error loading laptops" });
     }
 });
+
+
+//new
+app.get("/users", async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: "Error loading users" });
+    }
+});
+
+//new
+app.delete("/users/:id", async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ success: true, message: "User deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting user" });
+    }
+});
+
+
+//new
+app.put("/users/:id", async (req, res) => {
+    try {
+        const { role } = req.body;
+        await User.findByIdAndUpdate(req.params.id, { role });
+
+        res.json({ success: true, message: "User role updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating role" });
+    }
+});
+
 
 app.listen(3000, () => console.log("Server running at http://localhost:3000"));

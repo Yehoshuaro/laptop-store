@@ -1,66 +1,96 @@
-document.addEventListener("DOMContentLoaded", () => {
-    populateUsers();
+document.addEventListener("DOMContentLoaded", function () {
+    const userRole = localStorage.getItem("userRole");
 
-    document.getElementById("searchInput").addEventListener("input", searchUsers);
+    if (userRole !== "admin") {
+        alert("Access denied. Redirecting...");
+        window.location.href = "catalog.html";
+    }
+
+    loadUsers();
 });
 
-function loadUsers() {
-    return JSON.parse(localStorage.getItem("users")) || [];
-}
+async function loadUsers() {
+    try {
+        const response = await fetch("http://localhost:3000/users");
+        const users = await response.json();
 
-function saveUsers(users) {
-    localStorage.setItem("users", JSON.stringify(users));
-}
+        const userList = document.getElementById("userList");
+        userList.innerHTML = "";
 
-function populateUsers() {
-    const users = loadUsers();
-    const userTableBody = document.getElementById("userTableBody");
-    userTableBody.innerHTML = "";
-
-    users.forEach((user, index) => {
-        userTableBody.innerHTML += `
-            <tr id="user-${index}">
-                <td>${user.username}</td>
-                <td>${user.email}</td>
-                <td>${user.password}</td>
-                <td>${user.role}</td>
-                <td>
-                    <button class="edit-btn" onclick="editUser(${index})">Edit</button>
-                    <button class="delete-btn" onclick="deleteUser(${index})">Delete</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-
-function editUser(index) {
-    const users = loadUsers();
-    const row = document.getElementById(`user-${index}`).children;
-
-    users[index].username = row[0].innerText.trim();
-    users[index].email = row[1].innerText.trim();
-    users[index].password = row[2].innerText.trim();
-    users[index].role = row[3].innerText.trim();
-
-    saveUsers(users);
-    alert("User updated successfully!");
-}
-
-function deleteUser(index) {
-    if (confirm("Are you sure you want to delete this user?")) {
-        const users = loadUsers();
-        users.splice(index, 1);
-        saveUsers(users);
-        populateUsers();
-        alert("User deleted successfully!");
+        users.forEach(user => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <p>${user.name} (${user.email}) - Role: <strong>${user.role}</strong></p>
+                <button onclick="deleteUser('${user._id}')">Delete</button>
+                <button onclick="changeRole('${user._id}', '${user.role}')">Change Role</button>
+            `;
+            userList.appendChild(div);
+        });
+    } catch (error) {
+        alert("Error loading users");
     }
 }
 
-function searchUsers() {
-    const searchValue = document.getElementById("searchInput").value.toLowerCase();
-    Array.from(document.getElementById("userTableBody").rows).forEach(row => {
-        const username = row.cells[0].innerText.toLowerCase();
-        const email = row.cells[1].innerText.toLowerCase();
-        row.style.display = (username.includes(searchValue) || email.includes(searchValue)) ? "" : "none";
-    });
+async function deleteUser(userId) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    try {
+        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+            method: "DELETE"
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        loadUsers();
+    } catch (error) {
+        alert("Error deleting user");
+    }
 }
+
+async function changeRole(userId, currentRole) {
+    const newRole = prompt("Enter new role (user/admin):", currentRole);
+    if (!newRole || (newRole !== "user" && newRole !== "admin")) {
+        alert("Invalid role. Must be 'user' or 'admin'.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ role: newRole })
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        loadUsers();
+    } catch (error) {
+        alert("Error updating role");
+    }
+}
+
+document.getElementById("addUserForm")?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("newUserName").value;
+    const email = document.getElementById("newUserEmail").value;
+    const password = document.getElementById("newUserPassword").value;
+    const role = document.getElementById("newUserRole").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password, role })
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        if (result.success) {
+            document.getElementById("addUserForm").reset();
+            loadUsers();
+        }
+    } catch (error) {
+        alert("Error adding user");
+    }
+});
