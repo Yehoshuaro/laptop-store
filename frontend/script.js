@@ -25,12 +25,11 @@ document.getElementById("registerForm")?.addEventListener("submit", async functi
 });
 
 
-//working
 // document.getElementById("loginForm")?.addEventListener("submit", async function (e) {
 //     e.preventDefault();
 //
-//     const email = document.getElementById("loginEmail").value; // ✅ Corrected ID
-//     const password = document.getElementById("loginPassword").value; // ✅ Corrected ID
+//     const email = document.getElementById("loginEmail").value;
+//     const password = document.getElementById("loginPassword").value;
 //
 //     try {
 //         const response = await fetch("http://localhost:3000/login", {
@@ -46,7 +45,14 @@ document.getElementById("registerForm")?.addEventListener("submit", async functi
 //         }
 //
 //         alert("Login successful!");
-//         window.location.href = "catalog.html"; // Redirect if login is successful
+//
+//         localStorage.setItem("userRole", result.role);
+//
+//         if (result.role === "admin") {
+//             window.location.href = "admin-panel.html";
+//         } else {
+//             window.location.href = "catalog.html";
+//         }
 //     } catch (error) {
 //         alert(error.message);
 //     }
@@ -78,8 +84,10 @@ document.getElementById("loginForm")?.addEventListener("submit", async function 
 
         if (result.role === "admin") {
             window.location.href = "admin-panel.html";
+        } else if (result.role === "seller") {
+            window.location.href = "seller-dashboard.html";
         } else {
-            window.location.href = "catalog.html";
+            window.location.href = "catalog.html"; // Default for customers
         }
     } catch (error) {
         alert(error.message);
