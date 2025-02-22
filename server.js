@@ -26,33 +26,6 @@ const Laptop = mongoose.model("Laptop", new mongoose.Schema({
     in_stock: Boolean
 }));
 
-// app.post("/register", async (req, res) => {
-//     try {
-//         const { name, email, password } = req.body;
-//
-//         let existingUser = await User.findOne({ email });
-//         if (existingUser) {
-//             return res.status(400).json({ success: false, message: "Email already in use" });
-//         }
-//
-//         const hashedPassword = await bcrypt.hash(password, 10);
-//
-//         const newUser = new User({
-//             name,
-//             email,
-//             password: hashedPassword,
-//             role: "customer"
-//         });
-//
-//         await newUser.save();
-//
-//         res.status(201).json({ success: true, message: "User registered successfully" });
-//     } catch (error) {
-//         console.error("Registration error:", error);
-//         res.status(500).json({ success: false, message: error.message }); // Показываем реальную ошибку
-//     }
-// });
-
 app.post("/register", async (req, res) => {
     try {
         const { name, email, password, role = "customer" } = req.body; // Default to "customer" role

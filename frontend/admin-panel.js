@@ -8,28 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadUsers();
 });
-//
-// async function loadUsers() {
-//     try {
-//         const response = await fetch("http://localhost:3000/users");
-//         const users = await response.json();
-//
-//         const userList = document.getElementById("userList");
-//         userList.innerHTML = "";
-//
-//         users.forEach(user => {
-//             const div = document.createElement("div");
-//             div.innerHTML = `
-//                 <p>${user.name} (${user.email}) - Role: <strong>${user.role}</strong></p>
-//                 <button onclick="deleteUser('${user._id}')">Delete</button>
-//                 <button onclick="changeRole('${user._id}', '${user.role}')">Change Role</button>
-//             `;
-//             userList.appendChild(div);
-//         });
-//     } catch (error) {
-//         alert("Error loading users");
-//     }
-// }
 
 
 async function loadUsers() {
@@ -69,28 +47,6 @@ async function deleteUser(userId) {
         alert("Error deleting user");
     }
 }
-//
-// async function changeRole(userId, currentRole) {
-//     const newRole = prompt("Enter new role (admin, seller, customer):", currentRole);
-//     if (!newRole || (newRole !== "admin" && newRole !== "seller" && newRole !== "customer")) {
-//         alert("Invalid role. Must be 'admin', 'seller', or 'customer'.");
-//         return;
-//     }
-//
-//     try {
-//         const response = await fetch(`http://localhost:3000/users/${userId}`, {
-//             method: "PUT",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ role: newRole })
-//         });
-//
-//         const result = await response.json();
-//         alert(result.message);
-//         loadUsers();
-//     } catch (error) {
-//         alert("Error updating role");
-//     }
-// }
 
 async function changeRole(userId, currentRole) {
     const newRole = prompt("Enter new role (admin, seller, customer):", currentRole);
