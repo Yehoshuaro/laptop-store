@@ -9,15 +9,17 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "frontend"))); // Раздаём HTML, CSS, JS
 
-mongoose.connect("mongodb://127.0.0.1:27017/laptopStore")
+mongoose.connect("mongodb://localhost:27017/laptopStore")
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.log(err));
 
-const User = mongoose.model("User", new mongoose.Schema({
-    name: String,
-    email: { type: String, unique: true },
-    password: String
-}));
+// const User = mongoose.model("User", new mongoose.Schema({
+//     name: String,
+//     email: { type: String, unique: true },
+//     password: String
+// }));
+const User = require("./models/User"); // Import correct model
+
 
 const Laptop = mongoose.model("Laptop", new mongoose.Schema({
     name: String,
@@ -27,7 +29,7 @@ const Laptop = mongoose.model("Laptop", new mongoose.Schema({
     in_stock: Boolean
 }));
 
-// Регистрация
+//Регистрация
 app.post("/register", async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -38,6 +40,7 @@ app.post("/register", async (req, res) => {
         res.status(400).json({ success: false, message: "Registration error" });
     }
 });
+
 
 // Логин
 app.post("/login", async (req, res) => {
