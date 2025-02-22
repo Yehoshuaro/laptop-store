@@ -132,7 +132,6 @@ app.get("/users", async (req, res) => {
     }
 });
 
-//new
 app.delete("/users/:id", async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id);
@@ -142,8 +141,58 @@ app.delete("/users/:id", async (req, res) => {
     }
 });
 
+app.delete("/laptops/:id", async (req, res) => {
+    try {
+        const result = await Laptop.findByIdAndDelete(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: "Laptop not found" });
+        }
+        res.json({ message: "Laptop deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting laptop" });
+    }
+});
 
-//new
+app.post("/laptops", async (req, res) => {
+    try {
+        const { name, brand, price, category, in_stock } = req.body;
+
+        if (!name || !brand || !price || !category) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const newLaptop = new Laptop({ name, brand, price, category, in_stock });
+        await newLaptop.save();
+
+        res.status(201).json({ message: "Laptop added successfully", laptop: newLaptop });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error adding laptop" });
+    }
+});
+
+
+app.put("/laptops/:id", async (req, res) => {
+    try {
+        const { name, brand, price, category, in_stock } = req.body;
+
+        const updatedLaptop = await Laptop.findByIdAndUpdate(
+            req.params.id,
+            { name, brand, price, category, in_stock },
+            { new: true }
+        );
+
+        if (!updatedLaptop) {
+            return res.status(404).json({ message: "Laptop not found" });
+        }
+
+        res.json({ message: "Laptop updated successfully", laptop: updatedLaptop });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error updating laptop" });
+    }
+});
+
 app.put("/users/:id", async (req, res) => {
     try {
         const { role } = req.body;
