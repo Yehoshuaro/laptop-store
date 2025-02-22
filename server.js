@@ -19,7 +19,7 @@ mongoose.connect("mongodb://localhost:27017/laptopStore")
 //     email: { type: String, unique: true },
 //     password: String
 // }));
-const User = require("./models/User"); // Import correct model
+const User = require("./models/User");
 
 
 const Laptop = mongoose.model("Laptop", new mongoose.Schema({
@@ -40,28 +40,24 @@ app.post("/register", async (req, res) => {
             return res.status(400).json({ success: false, message: "Email already in use" });
         }
 
-        // Хешируем пароль перед сохранением
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Создаём нового пользователя
         const newUser = new User({
             name,
             email,
             password: hashedPassword,
-            role: "customer" // Назначаем роль автоматически
+            role: "admin"
         });
 
         await newUser.save();
 
         res.status(201).json({ success: true, message: "User registered successfully" });
     } catch (error) {
-        console.error("Registration error:", error); // Логируем ошибку
+        console.error("Registration error:", error);
         res.status(500).json({ success: false, message: error.message }); // Показываем реальную ошибку
     }
 });
 
-
-// Логин
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -74,7 +70,6 @@ app.post("/login", async (req, res) => {
     }
 });
 
-// Список ноутбуков
 app.get("/laptops", async (req, res) => {
     try {
         const laptops = await Laptop.find();
