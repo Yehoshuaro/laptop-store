@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 app.use(cors());
@@ -29,15 +30,33 @@ const Laptop = mongoose.model("Laptop", new mongoose.Schema({
     in_stock: Boolean
 }));
 
-//Регистрация
 app.post("/register", async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        const user = new User({ name, email, password });
-        await user.save();
-        res.json({ success: true, message: "Registration successful" });
+
+        // Проверка, существует ли уже пользователь с таким email
+        let existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: "Email already in use" });
+        }
+
+        // Хешируем пароль перед сохранением
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Создаём нового пользователя
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword,
+            role: "customer" // Назначаем роль автоматически
+        });
+
+        await newUser.save();
+
+        res.status(201).json({ success: true, message: "User registered successfully" });
     } catch (error) {
-        res.status(400).json({ success: false, message: "Registration error" });
+        console.error("Registration error:", error); // Логируем ошибку
+        res.status(500).json({ success: false, message: error.message }); // Показываем реальную ошибку
     }
 });
 
