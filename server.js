@@ -135,7 +135,6 @@ app.post("/register", async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        // Проверка, существует ли уже пользователь с таким email
         let existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ success: false, message: "Email already in use" });
@@ -147,7 +146,7 @@ app.post("/register", async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            role: "admin"
+            role: "customer"
         });
 
         await newUser.save();
@@ -158,35 +157,6 @@ app.post("/register", async (req, res) => {
         res.status(500).json({ success: false, message: error.message }); // Показываем реальную ошибку
     }
 });
-
-// app.post("/login", async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//         const user = await User.findOne({ email, password });
-//         if (!user) return res.status(401).json({ success: false, message: "Invalid credentials" });
-//
-//         res.json({ success: true, message: "Login successful" });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: "Login error" });
-//     }
-// });
-
-// app.post("/login", async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-//         const user = await User.findOne({ email });
-//
-//         if (!user) return res.status(401).json({ success: false, message: "Invalid credentials" });
-//
-//         const isMatch = await bcrypt.compare(password, user.password);
-//         if (!isMatch) return res.status(401).json({ success: false, message: "Invalid credentials" });
-//
-//         res.json({ success: true, message: "Login successful" });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: "Login error" });
-//     }
-// });
-
 
 
 app.post("/login", async (req, res) => {
