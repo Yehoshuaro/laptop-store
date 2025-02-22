@@ -1,19 +1,41 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Логин</title>
+  <title>Leriano - Laptop Store</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-  <h2>Вход</h2>
-  <input type="text" id="username" placeholder="Логин">
-  <input type="password" id="password" placeholder="Пароль">
-  <button onclick="login()">Войти</button>
-  <p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
-</div>
+
+<nav class="navbar">
+  <div class="navbar-logo">🔥 Leriano</div>
+  <ul class="navbar-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Laptops</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="auth-buttons">
+    <a href="login.html" class="btn">Login</a>
+    <a href="register.html" class="btn btn-secondary">Sign Up</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <h1>Welcome to Leriano Laptop Store</h1>
+  <p>Find the best laptops at unbeatable prices!</p>
+  <a href="#" class="cta-button">Explore Now</a>
+</header>
+
+<section id="about">
+  <h2>About Us</h2>
+  <p>Leriano is a leading laptop retailer providing top-notch models at affordable prices.</p>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2024 Leriano. All rights reserved.</p>
+</footer>
 
 <script src="script.js"></script>
 </body>

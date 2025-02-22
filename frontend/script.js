@@ -33,6 +33,19 @@ document.getElementById("loginForm")?.addEventListener("submit", async function 
     if (result.success) window.location.href = "catalog.html";
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("registerForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Registration successful!");
+    });
+
+    document.getElementById("loginForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Login successful!");
+    });
+});
+
+
 // Load laptops
 async function loadLaptops() {
     const response = await fetch("/laptops");
